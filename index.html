@@ -1,0 +1,2309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BusHub - Book Bus Tickets Online in Ethiopia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* ========== NAVIGATION ========== */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #16a34a;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #16a34a;
+        }
+
+        .book-btn {
+            background: #16a34a;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .book-btn:hover {
+            background: #15803d;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            nav {
+                padding: 1rem;
+            }
+            .logo {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* ========== HERO SECTION ========== */
+        .hero {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            color: white;
+            padding: 150px 2rem 100px;
+            text-align: center;
+            margin-top: 60px;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .btn-primary {
+            background: #fbbf24;
+            color: #333;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #f59e0b;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid white;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #16a34a;
+        }
+
+        .hero-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card i {
+            font-size: 2rem;
+            color: #fbbf24;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card h4 {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero {
+                padding: 120px 1rem 80px;
+            }
+        }
+
+        /* ========== BOOKING FORM ========== */
+        .booking-section {
+            background: white;
+            padding: 3rem 2rem;
+            margin: -50px 2rem 0;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 100;
+        }
+
+        .booking-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #16a34a;
+            box-shadow: 0 0 5px rgba(22, 163, 74, 0.3);
+        }
+
+        .search-btn {
+            background: #16a34a;
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 1rem;
+        }
+
+        .search-btn:hover {
+            background: #15803d;
+        }
+
+        @media (max-width: 768px) {
+            .booking-section {
+                margin: 0 0.5rem;
+            }
+            .booking-form {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* ========== FEATURES SECTION ========== */
+        .features-section {
+            padding: 5rem 2rem;
+            background: #f9fafb;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        .section-divider {
+            width: 80px;
+            height: 4px;
+            background: #16a34a;
+            margin: 0 auto 3rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .feature-box i {
+            font-size: 3rem;
+            color: #16a34a;
+            margin-bottom: 1rem;
+        }
+
+        .feature-box h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: #1f2937;
+        }
+
+        .feature-box p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* ========== HOW IT WORKS ========== */
+        .how-it-works {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: #16a34a;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+
+        .step h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+
+        .step p {
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        .step::after {
+            content: "→";
+            position: absolute;
+            right: -2rem;
+            top: 2rem;
+            font-size: 2rem;
+            color: #16a34a;
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .step:not(:last-child)::after {
+                display: block;
+            }
+        }
+
+        /* ========== PRICING SECTION ========== */
+        .pricing-section {
+            padding: 5rem 2rem;
+            background: #f9fafb;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .pricing-card.popular {
+            border: 3px solid #16a34a;
+            transform: scale(1.05);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #16a34a;
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+
+        .pricing-card p {
+            color: #6b7280;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #16a34a;
+            margin-bottom: 0.3rem;
+        }
+
+        .price-period {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            padding: 0.7rem 0;
+            color: #4b5563;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pricing-features li i {
+            color: #16a34a;
+            width: 20px;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .price-btn {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #16a34a;
+            background: transparent;
+            color: #16a34a;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .pricing-card.popular .price-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .price-btn:hover {
+            background: #16a34a;
+            color: white;
+        }
+
+        /* ========== TESTIMONIALS ========== */
+        .testimonials-section {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: #f9fafb;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .stars {
+            color: #fbbf24;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-text {
+            color: #4b5563;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            background: #16a34a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .author-info h4 {
+            color: #1f2937;
+            margin-bottom: 0.2rem;
+        }
+
+        .author-info p {
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        /* ========== ADVANCED FEATURES SECTION ========== */
+        .advanced-features-section {
+            padding: 5rem 2rem;
+            background: #f9fafb;
+        }
+
+        /* ========== WHY CHOOSE US ========== */
+        .why-choose-section {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .why-card {
+            padding: 2rem;
+            border-left: 4px solid #16a34a;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+        }
+
+        .why-card i {
+            font-size: 2rem;
+            color: #16a34a;
+            margin-bottom: 1rem;
+        }
+
+        .why-card h4 {
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .why-card p {
+            color: #6b7280;
+        }
+
+        /* ========== FAQ SECTION ========== */
+        .faq-section {
+            padding: 5rem 2rem;
+            background: #f9fafb;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .faq-button {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #1f2937;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-button i {
+            color: #16a34a;
+            transition: transform 0.3s;
+        }
+
+        .faq-answer {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+            color: #6b7280;
+        }
+
+        /* ========== CONTACT SECTION ========== */
+        .contact-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .contact-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-section p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-box {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+        }
+
+        .contact-box i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-box h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            background: #111827;
+            color: #9ca3af;
+            padding: 3rem 2rem 1rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: white;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.7rem;
+        }
+
+        .footer-section a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #16a34a;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 35px;
+            height: 35px;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .social-links a:hover {
+            background: #16a34a;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ========== MODALS ========== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #6b7280;
+        }
+
+        .modal-close:hover {
+            color: #111827;
+        }
+
+        .modal h2 {
+            margin-bottom: 1.5rem;
+            color: #1f2937;
+        }
+
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .modal-form input,
+        .modal-form select {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .modal-form input:focus,
+        .modal-form select:focus {
+            outline: none;
+            border-color: #16a34a;
+            box-shadow: 0 0 5px rgba(22, 163, 74, 0.3);
+        }
+
+        .modal-submit {
+            background: #16a34a;
+            color: white;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .modal-submit:hover {
+            background: #15803d;
+        }
+
+        /* ========== UTILITY ========== */
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-4 {
+            margin-top: 2rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- ========== NAVIGATION ========== -->
+    <nav>
+        <div class="logo">
+            <i class="fas fa-bus"></i>
+            BusHub
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#" onclick="openBookingModal(); return false;" class="book-btn">Book Now</a></li>
+        </ul>
+    </nav>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-badge">
+                ✅ Trusted by 200,000+ travelers in Ethiopia
+            </div>
+            <h1>Book Your Bus Ticket <span style="color: #fbbf24;">Anytime, Anywhere</span></h1>
+            <p>The easiest way to book bus tickets across Ethiopia. Fast, secure and reliable. ይጓዙ በቅን!</p>
+            
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="openBookingModal()">Book a Ticket →</button>
+                <button class="btn-secondary" onclick="alert('Demo video would play here')">
+                    <i class="fas fa-play"></i> Watch How It Works
+                </button>
+            </div>
+
+            <div class="hero-features">
+                <div class="feature-card">
+                    <i class="fas fa-lock"></i>
+                    <h4>Secure Payments</h4>
+                    <p>100% Safe & Encrypted</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-headset"></i>
+                    <h4>24/7 Support</h4>
+                    <p>We're here for you</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-check-circle"></i>
+                    <h4>Easy Booking</h4>
+                    <p>3 simple steps</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-qrcode"></i>
+                    <h4>Digital Tickets</h4>
+                    <p>Instant E-Tickets</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== BOOKING FORM ========== -->
+    <div class="booking-section">
+        <form class="booking-form">
+            <div class="form-group">
+                <label for="from">From</label>
+                <input type="text" id="from" placeholder="Addis Ababa" value="Addis Ababa">
+            </div>
+            <div class="form-group">
+                <label for="to">To</label>
+                <input type="text" id="to" placeholder="Destination" value="Hawassa">
+            </div>
+            <div class="form-group">
+                <label for="date">Date of Travel</label>
+                <input type="date" id="date">
+            </div>
+            <div class="form-group">
+                <label for="passengers">Passengers</label>
+                <select id="passengers">
+                    <option>1 Passenger</option>
+                    <option>2 Passengers</option>
+                    <option>3 Passengers</option>
+                    <option>4 Passengers</option>
+                    <option>5+ Passengers</option>
+                </select>
+            </div>
+            <button type="button" class="search-btn" onclick="openSearchModal()">
+                <i class="fas fa-search"></i> Search Buses
+            </button>
+        </form>
+    </div>
+
+    <!-- ========== FEATURES SECTION ========== -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <h2 class="section-title">Travel Made Easy</h2>
+            <div class="section-divider"></div>
+
+            <div class="features-grid">
+                <div class="feature-box">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h3>Easy Booking</h3>
+                    <p>Book your ticket in just 3 simple steps. Search, select seat, and pay!</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <h3>Multiple Payments</h3>
+                    <p>Pay with Telebirr, CBE Birr, Cards, or Cash with the driver</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fas fa-chair"></i>
+                    <h3>Choose Your Seat</h3>
+                    <p>Pick your preferred seat before you travel. No surprises!</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fas fa-bell"></i>
+                    <h3>Trip Alerts</h3>
+                    <p>Get real-time updates on your trip status and bus location</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Safe & Reliable</h3>
+                    <p>We work only with trusted and verified bus companies</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fas fa-qrcode"></i>
+                    <h3>Digital Tickets</h3>
+                    <p>Get instant e-tickets with QR codes. No paper needed!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== HOW IT WORKS ========== -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Simple 4 Step Process</h2>
+            <div class="section-divider"></div>
+
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Search</h3>
+                    <p>Enter your departure and arrival cities, select travel date</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Select</h3>
+                    <p>Choose your bus, preferred seat, and bus type</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Pay</h3>
+                    <p>Complete payment securely with your preferred method</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Travel</h3>
+                    <p>Get instant e-ticket and enjoy your comfortable journey!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PRICING SECTION ========== -->
+    <section class="pricing-section" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Simple, Transparent Pricing</h2>
+            <div class="section-divider"></div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Economy</h3>
+                    <p>Best for budget travelers</p>
+                    <div class="price">Br 450</div>
+                    <div class="price-period">per seat</div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Basic comfort seats</li>
+                        <li><i class="fas fa-check"></i> Standard air conditioning</li>
+                        <li><i class="fas fa-check"></i> No frills</li>
+                        <li><i class="fas fa-check"></i> Best price guarantee</li>
+                        <li><i class="fas fa-check"></i> Free cancellation (24hrs)</li>
+                    </ul>
+                    <button class="price-btn" onclick="openBookingModal()">Book Now</button>
+                </div>
+
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Popular</div>
+                    <h3>Standard</h3>
+                    <p>More comfort, more value</p>
+                    <div class="price">Br 700</div>
+                    <div class="price-period">per seat</div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Extra legroom</li>
+                        <li><i class="fas fa-check"></i> Reclining seats</li>
+                        <li><i class="fas fa-check"></i> Premium air conditioning</li>
+                        <li><i class="fas fa-check"></i> Complimentary snacks</li>
+                        <li><i class="fas fa-check"></i> Free cancellation (48hrs)</li>
+                    </ul>
+                    <button class="price-btn" onclick="openBookingModal()">Book Now</button>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>VIP</h3>
+                    <p>Premium for premium you</p>
+                    <div class="price">Br 1,200</div>
+                    <div class="price-period">per seat</div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Maximum comfort seats</li>
+                        <li><i class="fas fa-check"></i> Fully reclining beds</li>
+                        <li><i class="fas fa-check"></i> Individual air control</li>
+                        <li><i class="fas fa-check"></i> Complimentary meals</li>
+                        <li><i class="fas fa-check"></i> Priority boarding</li>
+                    </ul>
+                    <button class="price-btn" onclick="openBookingModal()">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TESTIMONIALS SECTION ========== -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Travelers Say</h2>
+            <div class="section-divider"></div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"BusHub made my trip so easy! I can book my ticket anytime, anywhere. The app is very user-friendly and the service is excellent!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">👨</div>
+                        <div class="author-info">
+                            <h4>Daniel Tadesse</h4>
+                            <p>Addis Ababa</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"The app is very user-friendly and the payment options are great. I love using BusHub! Highly recommended for everyone."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">👩</div>
+                        <div class="author-info">
+                            <h4>Betselem Assefa</h4>
+                            <p>Hawassa</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"I love the seat selection feature. I always get my favorite seat. The e-tickets are instant and the QR code verification is smooth!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">👨</div>
+                        <div class="author-info">
+                            <h4>Fitsum Abebe</h4>
+                            <p>Bahir Dar</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ADVANCED FEATURES SECTION ========== -->
+    <section class="advanced-features-section">
+        <div class="container">
+            <h2 class="section-title">Advanced Features</h2>
+            <div class="section-divider"></div>
+
+            <div class="features-grid">
+                <div class="feature-box" style="cursor: pointer;" onclick="openOperatorModal()">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <h3>Operator Dashboard</h3>
+                    <p>Complete control over buses, routes, bookings, and revenue tracking in real-time</p>
+                    <button class="price-btn" style="margin-top: 1rem;">View Demo →</button>
+                </div>
+
+                <div class="feature-box" style="cursor: pointer;" onclick="openAdminModal()">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Admin Analytics</h3>
+                    <p>Powerful insights to monitor operations, revenue, and grow your business</p>
+                    <button class="price-btn" style="margin-top: 1rem;">View Demo →</button>
+                </div>
+
+                <div class="feature-box" style="cursor: pointer;" onclick="openMobileModal()">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Mobile App</h3>
+                    <p>Seamless booking experience on iOS and Android with offline support</p>
+                    <button class="price-btn" style="margin-top: 1rem;">View Demo →</button>
+                </div>
+
+                <div class="feature-box" style="cursor: pointer;" onclick="openTrackingModal()">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Real-time Tracking</h3>
+                    <p>Track buses live and keep passengers informed with accurate ETAs</p>
+                    <button class="price-btn" style="margin-top: 1rem;">View Demo →</button>
+                </div>
+
+                <div class="feature-box" style="cursor: pointer;" onclick="openAPIModal()">
+                    <i class="fas fa-code"></i>
+                    <h3>API Integration</h3>
+                    <p>Robust APIs to connect with partners and third-party systems</p>
+                    <button class="price-btn" style="margin-top: 1rem;">View Demo →</button>
+                </div>
+
+                <div class="feature-box" style="cursor: pointer;" onclick="openSupportModal()">
+                    <i class="fas fa-life-ring"></i>
+                    <h3>Support System</h3>
+                    <p>24/7 customer support with chat, email, and phone assistance</p>
+                    <button class="price-btn" style="margin-top: 1rem;">View Demo →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== WHY CHOOSE US SECTION ========== -->
+    <section class="why-choose-section">
+        <div class="container">
+            <h2 class="section-title">Why Choose BusHub?</h2>
+            <div class="section-divider"></div>
+
+            <div class="why-choose-grid">
+                <div class="why-card">
+                    <i class="fas fa-bolt"></i>
+                    <h4>Lightning Fast</h4>
+                    <p>Book and confirm your ticket in under 2 minutes with our optimized platform</p>
+                </div>
+
+                <div class="why-card">
+                    <i class="fas fa-lock"></i>
+                    <h4>Bank-Level Security</h4>
+                    <p>All transactions encrypted with 256-bit SSL. PCI-DSS compliant payment processing</p>
+                </div>
+
+                <div class="why-card">
+                    <i class="fas fa-users"></i>
+                    <h4>Community Driven</h4>
+                    <p>Join 200,000+ happy travelers and 450+ bus companies across Ethiopia</p>
+                </div>
+
+                <div class="why-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h4>Works Offline</h4>
+                    <p>Save tickets offline and access them anytime, even without internet connection</p>
+                </div>
+
+                <div class="why-card">
+                    <i class="fas fa-handshake"></i>
+                    <h4>Best Price Guarantee</h4>
+                    <p>Found a cheaper ticket? We'll match it! Lowest prices guaranteed on all routes</p>
+                </div>
+
+                <div class="why-card">
+                    <i class="fas fa-redo"></i>
+                    <h4>Easy Rescheduling</h4>
+                    <p>Change your travel date up to 24 hours before departure with no extra charges</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FAQ SECTION ========== -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="section-divider"></div>
+
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-button" onclick="toggleFAQ(this)">
+                        <span>How do I book a ticket?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        Simply enter your destination, travel date, and number of passengers. Browse available buses, select your preferred seats, and complete payment. You'll receive an instant e-ticket with a QR code.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-button" onclick="toggleFAQ(this)">
+                        <span>What payment methods do you accept?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        We accept Telebirr, CBE Birr, Credit/Debit Cards (Visa, Mastercard), and Cash payment with the bus driver. All payment methods are secure and encrypted.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-button" onclick="toggleFAQ(this)">
+                        <span>Can I change my travel date?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        Yes! You can reschedule your trip up to 24 hours before departure at no extra cost. Simply go to your bookings and select "Reschedule."
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-button" onclick="toggleFAQ(this)">
+                        <span>What if I miss my bus?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        If you miss your bus, you can reschedule to the next available trip free of charge. If no suitable trips are available, we'll process a full refund within 3-5 business days.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-button" onclick="toggleFAQ(this)">
+                        <span>How do I get group discounts?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        For groups of 10+ passengers, contact our team at support@bushub.com or call +251 911 123 456. We offer special discounts and can customize packages for your group.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-button" onclick="toggleFAQ(this)">
+                        <span>Is my payment information safe?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        Absolutely! We use 256-bit SSL encryption and are PCI-DSS Level 1 compliant. Your payment information is never stored on our servers and is processed through secure, industry-standard payment gateways.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CONTACT SECTION ========== -->
+    <section class="contact-section" id="contact">
+        <h2>Ready to Travel Smarter?</h2>
+        <p>Join thousands of happy travelers and book your next trip with BusHub</p>
+
+        <div class="contact-info">
+            <div class="contact-box">
+                <i class="fas fa-mobile-alt"></i>
+                <h4>Download App</h4>
+                <p>Available on iOS & Android</p>
+            </div>
+            <div class="contact-box">
+                <i class="fas fa-phone"></i>
+                <h4>Call Us</h4>
+                <p>+251 911 123 456</p>
+            </div>
+            <div class="contact-box">
+                <i class="fas fa-envelope"></i>
+                <h4>Email Us</h4>
+                <p>support@bushub.com</p>
+            </div>
+        </div>
+
+        <button class="btn-primary" onclick="openBookingModal()" style="margin-bottom: 2rem;">Book Your Ticket Now</button>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About BusHub</h4>
+                <p style="margin-bottom: 1rem;">Revolutionizing bus travel in Ethiopia with secure payments and instant e-tickets.</p>
+                <div class="social-links">
+                    <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Book a Ticket</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Press</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 BusHub. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <!-- ========== BOOKING MODAL ========== -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeBookingModal()">×</button>
+            <h2>Book Your Bus Ticket</h2>
+            
+            <form class="modal-form">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <input type="text" placeholder="From City" value="Addis Ababa" required>
+                    <input type="text" placeholder="To City" value="Hawassa" required>
+                </div>
+                <input type="date" required>
+                <select required>
+                    <option>1 Passenger</option>
+                    <option>2 Passengers</option>
+                    <option>3 Passengers</option>
+                    <option>4 Passengers</option>
+                    <option>5+ Passengers</option>
+                </select>
+                <button type="submit" class="modal-submit" onclick="openSearchModal(); return false;">Search Available Buses →</button>
+            </form>
+
+            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+                <h4 style="color: #1f2937; margin-bottom: 1rem;">Popular Routes</h4>
+                <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f3f4f6; border-radius: 0.5rem;">
+                        <div>
+                            <p style="font-weight: bold; color: #1f2937;">Addis Ababa → Hawassa</p>
+                            <p style="font-size: 0.9rem; color: #6b7280;">6 hours 30 minutes</p>
+                        </div>
+                        <p style="font-weight: bold; color: #16a34a; font-size: 1.1rem;">Br 450</p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f3f4f6; border-radius: 0.5rem;">
+                        <div>
+                            <p style="font-weight: bold; color: #1f2937;">Addis Ababa → Bahir Dar</p>
+                            <p style="font-size: 0.9rem; color: #6b7280;">9 hours</p>
+                        </div>
+                        <p style="font-weight: bold; color: #16a34a; font-size: 1.1rem;">Br 600</p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f3f4f6; border-radius: 0.5rem;">
+                        <div>
+                            <p style="font-weight: bold; color: #1f2937;">Addis Ababa → Adama</p>
+                            <p style="font-size: 0.9rem; color: #6b7280;">2 hours</p>
+                        </div>
+                        <p style="font-weight: bold; color: #16a34a; font-size: 1.1rem;">Br 200</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== SEARCH RESULTS MODAL ========== -->
+    <div id="searchModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <button class="modal-close" onclick="closeSearchModal()">×</button>
+            <h2>Available Buses - Addis Ababa to Hawassa</h2>
+            <p style="color: #6b7280; margin-bottom: 1.5rem;">May 20, 2025 | 1 Passenger</p>
+
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <!-- Bus 1 -->
+                <div style="border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1rem; transition: all 0.3s;">
+                    <div style="display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 1rem; align-items: center;">
+                        <div>
+                            <p style="font-size: 1.5rem; margin-bottom: 0.5rem;">🚌</p>
+                            <p style="font-weight: bold; color: #1f2937;">Yegna Bus</p>
+                            <p style="font-size: 0.85rem; color: #6b7280;">Standard</p>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <div>
+                                    <p style="font-size: 0.9rem; color: #6b7280;">Departure</p>
+                                    <p style="font-weight: bold; color: #1f2937; font-size: 1.1rem;">06:00 AM</p>
+                                </div>
+                                <div style="text-align: center; color: #6b7280;">→</div>
+                                <div>
+                                    <p style="font-size: 0.9rem; color: #6b7280;">Arrival</p>
+                                    <p style="font-weight: bold; color: #1f2937; font-size: 1.1rem;">12:30 PM</p>
+                                </div>
+                            </div>
+                            <p style="font-size: 0.85rem; color: #6b7280;">Duration: 6h 30m</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <p style="font-size: 1.8rem; font-weight: bold; color: #16a34a;">Br 450</p>
+                            <p style="font-size: 0.85rem; color: #16a34a; margin-bottom: 0.5rem;">15 seats left</p>
+                            <button class="price-btn" onclick="openSeatsModal()" style="width: 100%; margin-top: 0.5rem;">Select Seat</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bus 2 -->
+                <div style="border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1rem; transition: all 0.3s;">
+                    <div style="display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 1rem; align-items: center;">
+                        <div>
+                            <p style="font-size: 1.5rem; margin-bottom: 0.5rem;">🚌</p>
+                            <p style="font-weight: bold; color: #1f2937;">Selam Express</p>
+                            <p style="font-size: 0.85rem; color: #6b7280;">Economy</p>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <div>
+                                    <p style="font-size: 0.9rem; color: #6b7280;">Departure</p>
+                                    <p style="font-weight: bold; color: #1f2937; font-size: 1.1rem;">08:00 AM</p>
+                                </div>
+                                <div style="text-align: center; color: #6b7280;">→</div>
+                                <div>
+                                    <p style="font-size: 0.9rem; color: #6b7280;">Arrival</p>
+                                    <p style="font-weight: bold; color: #1f2937; font-size: 1.1rem;">02:00 PM</p>
+                                </div>
+                            </div>
+                            <p style="font-size: 0.85rem; color: #6b7280;">Duration: 6h</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <p style="font-size: 1.8rem; font-weight: bold; color: #16a34a;">Br 350</p>
+                            <p style="font-size: 0.85rem; color: #16a34a; margin-bottom: 0.5rem;">8 seats left</p>
+                            <button class="price-btn" onclick="openSeatsModal()" style="width: 100%; margin-top: 0.5rem;">Select Seat</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bus 3 -->
+                <div style="border: 2px solid #16a34a; border-radius: 0.5rem; padding: 1rem; background: #f0fdf4;">
+                    <div style="display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 1rem; align-items: center;">
+                        <div>
+                            <p style="font-size: 1.5rem; margin-bottom: 0.5rem;">🚌</p>
+                            <p style="font-weight: bold; color: #1f2937;">Premium Travels</p>
+                            <p style="font-size: 0.85rem; color: #16a34a;">VIP</p>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <div>
+                                    <p style="font-size: 0.9rem; color: #6b7280;">Departure</p>
+                                    <p style="font-weight: bold; color: #1f2937; font-size: 1.1rem;">04:00 AM</p>
+                                </div>
+                                <div style="text-align: center; color: #6b7280;">→</div>
+                                <div>
+                                    <p style="font-size: 0.9rem; color: #6b7280;">Arrival</p>
+                                    <p style="font-weight: bold; color: #1f2937; font-size: 1.1rem;">10:30 AM</p>
+                                </div>
+                            </div>
+                            <p style="font-size: 0.85rem; color: #6b7280;">Duration: 6h 30m</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <p style="font-size: 1.8rem; font-weight: bold; color: #16a34a;">Br 750</p>
+                            <p style="font-size: 0.85rem; color: #16a34a; margin-bottom: 0.5rem;">12 seats left</p>
+                            <button class="price-btn" style="width: 100%; margin-top: 0.5rem; background: #16a34a; color: white;" onclick="openSeatsModal()">Select Seat</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== SEAT SELECTION MODAL ========== -->
+    <div id="seatsModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <button class="modal-close" onclick="closeSeatsModal()">×</button>
+            <h2>Select Your Seats</h2>
+            
+            <div style="background: #f3f4f6; padding: 2rem; border-radius: 0.5rem; margin-bottom: 2rem; text-align: center;">
+                <p style="color: #6b7280; margin-bottom: 0.5rem;">🪟 Driver's Cabin</p>
+            </div>
+
+            <div id="seatsGrid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; margin-bottom: 2rem;">
+                <!-- Seats will be generated by JavaScript -->
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid #e5e7eb;">
+                <div style="flex: 1;">
+                    <p style="color: #6b7280; font-size: 0.9rem;">Trip Details</p>
+                    <p style="font-weight: bold; color: #1f2937;">Addis Ababa → Hawassa</p>
+                    <p style="color: #6b7280; font-size: 0.85rem;">May 20, 2025 | 06:00 AM</p>
+                </div>
+                <div style="flex: 1; text-align: right;">
+                    <p style="color: #6b7280; font-size: 0.9rem;">Selected Seats</p>
+                    <p id="selectedSeatsDisplay" style="font-weight: bold; color: #1f2937;">None</p>
+                    <p id="selectedSeatCount" style="color: #6b7280; font-size: 0.85rem;">0 seats selected</p>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <div>
+                    <p style="color: #6b7280; font-size: 0.9rem;">Total Amount</p>
+                    <p id="totalAmount" style="font-size: 1.8rem; font-weight: bold; color: #16a34a;">Br 0</p>
+                </div>
+                <button class="modal-submit" onclick="proceedToPayment()" style="padding: 0.8rem 2rem;">Continue to Payment →</button>
+            </div>
+
+            <div style="display: flex; gap: 1rem; font-size: 0.85rem;">
+                <div style="flex: 1; display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 30px; height: 25px; background: #dbeafe; border-radius: 0.3rem; border: 1px solid #bfdbfe;"></div>
+                    <span>Available</span>
+                </div>
+                <div style="flex: 1; display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 30px; height: 25px; background: #16a34a; border-radius: 0.3rem; border: 1px solid #15803d;"></div>
+                    <span>Selected</span>
+                </div>
+                <div style="flex: 1; display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 30px; height: 25px; background: #d1d5db; border-radius: 0.3rem; border: 1px solid #9ca3af;"></div>
+                    <span>Booked</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== PAYMENT MODAL ========== -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <button class="modal-close" onclick="closePaymentModal()">×</button>
+            <h2>Complete Your Payment</h2>
+
+            <div style="background: #f3f4f6; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                    <div>
+                        <p style="color: #6b7280; font-size: 0.9rem;">Trip</p>
+                        <p style="font-weight: bold; color: #1f2937;">Addis Ababa → Hawassa</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="color: #6b7280; font-size: 0.9rem;">Total Amount</p>
+                        <p id="paymentAmount" style="font-weight: bold; color: #16a34a; font-size: 1.3rem;">Br 450</p>
+                    </div>
+                </div>
+            </div>
+
+            <h4 style="color: #1f2937; margin-bottom: 1rem; font-weight: bold;">Select Payment Method</h4>
+
+            <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+                <label style="display: flex; align-items: center; padding: 1rem; border: 2px solid #ddd; border-radius: 0.5rem; cursor: pointer; transition: all 0.3s;">
+                    <input type="radio" name="payment" value="telebirr" checked style="margin-right: 1rem;">
+                    <div>
+                        <p style="font-weight: bold; color: #1f2937;">Telebirr</p>
+                        <p style="font-size: 0.85rem; color: #6b7280;">Pay using your Telebirr account</p>
+                    </div>
+                </label>
+
+                <label style="display: flex; align-items: center; padding: 1rem; border: 2px solid #ddd; border-radius: 0.5rem; cursor: pointer; transition: all 0.3s;">
+                    <input type="radio" name="payment" value="cbebirr" style="margin-right: 1rem;">
+                    <div>
+                        <p style="font-weight: bold; color: #1f2937;">CBE Birr</p>
+                        <p style="font-size: 0.85rem; color: #6b7280;">Pay using your CBE Birr account</p>
+                    </div>
+                </label>
+
+                <label style="display: flex; align-items: center; padding: 1rem; border: 2px solid #ddd; border-radius: 0.5rem; cursor: pointer; transition: all 0.3s;">
+                    <input type="radio" name="payment" value="card" style="margin-right: 1rem;">
+                    <div>
+                        <p style="font-weight: bold; color: #1f2937;">Credit/Debit Card</p>
+                        <p style="font-size: 0.85rem; color: #6b7280;">Visa, Mastercard, or other cards</p>
+                    </div>
+                </label>
+
+                <label style="display: flex; align-items: center; padding: 1rem; border: 2px solid #ddd; border-radius: 0.5rem; cursor: pointer; transition: all 0.3s;">
+                    <input type="radio" name="payment" value="cash" style="margin-right: 1rem;">
+                    <div>
+                        <p style="font-weight: bold; color: #1f2937;">Cash</p>
+                        <p style="font-size: 0.85rem; color: #6b7280;">Pay with cash to the bus driver</p>
+                    </div>
+                </label>
+            </div>
+
+            <button class="modal-submit" onclick="completePayment()" style="width: 100%; margin-bottom: 1rem;">Complete Payment</button>
+            <p style="font-size: 0.85rem; color: #6b7280; text-align: center;">🔒 Your payment is secure and encrypted</p>
+        </div>
+    </div>
+
+    <!-- ========== SUCCESS MODAL ========== -->
+    <div id="successModal" class="modal">
+        <div class="modal-content" style="max-width: 500px; text-align: center;">
+            <h2 style="color: #16a34a; margin-bottom: 1rem;">
+                <i class="fas fa-check-circle" style="font-size: 3rem; margin-bottom: 0.5rem;"></i><br>
+                Booking Confirmed!
+            </h2>
+            
+            <div style="background: #f0fdf4; border: 2px solid #16a34a; padding: 2rem; border-radius: 0.5rem; margin-bottom: 2rem;">
+                <p style="font-size: 0.9rem; color: #6b7280; margin-bottom: 0.5rem;">Booking Reference</p>
+                <p style="font-size: 1.8rem; font-weight: bold; color: #1f2937; font-family: monospace; margin-bottom: 1rem;">BK-1620847392</p>
+                
+                <div style="background: white; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
+                    <p style="font-size: 0.85rem; color: #6b7280; margin-bottom: 0.5rem;">📱 Your E-Ticket QR Code</p>
+                    <div style="background: #e5e7eb; width: 100%; height: 150px; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">
+                        QR Code Here
+                    </div>
+                </div>
+
+                <div style="text-align: left; display: flex; flex-direction: column; gap: 0.8rem; font-size: 0.9rem;">
+                    <div><strong>Route:</strong> Addis Ababa → Hawassa</div>
+                    <div><strong>Date:</strong> May 20, 2025</div>
+                    <div><strong>Time:</strong> 06:00 AM</div>
+                    <div><strong>Seat:</strong> #5</div>
+                    <div><strong>Amount Paid:</strong> Br 450</div>
+                </div>
+            </div>
+
+            <div style="background: #fef3c7; border: 1px solid #fbbf24; padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem; font-size: 0.9rem;">
+                <p><strong>📧 Confirmation email sent to your registered email.</strong></p>
+                <p style="margin-top: 0.5rem;">Please arrive 30 minutes before departure. Show this QR code to the bus driver.</p>
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+                <button class="modal-submit" style="flex: 1;" onclick="downloadTicket()"><i class="fas fa-download"></i> Download Ticket</button>
+                <button class="modal-submit" style="flex: 1;" onclick="shareTicket()"><i class="fas fa-share-alt"></i> Share</button>
+            </div>
+
+            <button style="width: 100%; margin-top: 1rem; padding: 0.8rem; background: #e5e7eb; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: bold;" onclick="closeSuccessModal(); location.hash='#home';">Back to Home</button>
+        </div>
+    </div>
+
+    <!-- ========== OPERATOR DASHBOARD MODAL ========== -->
+    <div id="operatorModal" class="modal">
+        <div class="modal-content" style="max-width: 900px; max-height: 90vh; overflow-y: auto;">
+            <button class="modal-close" onclick="closeOperatorModal()">×</button>
+            <h2>Operator Dashboard Demo</h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                <div style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: white; padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
+                    <p style="opacity: 0.8; font-size: 0.9rem;">Total Bookings</p>
+                    <p style="font-size: 2rem; font-weight: bold;">320</p>
+                    <p style="font-size: 0.85rem; opacity: 0.8;">↑12% vs yesterday</p>
+                </div>
+                <div style="background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%); color: white; padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
+                    <p style="opacity: 0.8; font-size: 0.9rem;">Total Revenue</p>
+                    <p style="font-size: 2rem; font-weight: bold;">Br 45,680</p>
+                    <p style="font-size: 0.85rem; opacity: 0.8;">↑18% vs yesterday</p>
+                </div>
+                <div style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
+                    <p style="opacity: 0.8; font-size: 0.9rem;">Active Buses</p>
+                    <p style="font-size: 2rem; font-weight: bold;">28 / 35</p>
+                    <p style="font-size: 0.85rem; opacity: 0.8;">80% utilization</p>
+                </div>
+                <div style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
+                    <p style="opacity: 0.8; font-size: 0.9rem;">Cancelled Trips</p>
+                    <p style="font-size: 2rem; font-weight: bold;">12</p>
+                    <p style="font-size: 0.85rem; opacity: 0.8;">↓3% vs yesterday</p>
+                </div>
+            </div>
+
+            <h4 style="color: #1f2937; margin: 2rem 0 1rem; font-weight: bold;">Recent Bookings</h4>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                    <thead style="background: #f3f4f6;">
+                        <tr>
+                            <th style="padding: 0.8rem; text-align: left; color: #6b7280; border-bottom: 1px solid #e5e7eb;">PNR</th>
+                            <th style="padding: 0.8rem; text-align: left; color: #6b7280; border-bottom: 1px solid #e5e7eb;">Passenger</th>
+                            <th style="padding: 0.8rem; text-align: left; color: #6b7280; border-bottom: 1px solid #e5e7eb;">Route</th>
+                            <th style="padding: 0.8rem; text-align: left; color: #6b7280; border-bottom: 1px solid #e5e7eb;">Date</th>
+                            <th style="padding: 0.8rem; text-align: left; color: #6b7280; border-bottom: 1px solid #e5e7eb;">Amount</th>
+                            <th style="padding: 0.8rem; text-align: left; color: #6b7280; border-bottom: 1px solid #e5e7eb;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #e5e7eb;">
+                            <td style="padding: 0.8rem;">BK10234</td>
+                            <td style="padding: 0.8rem;">Arun Kumar</td>
+                            <td style="padding: 0.8rem;">Addis → Hawassa</td>
+                            <td style="padding: 0.8rem;">20 May, 10:30 AM</td>
+                            <td style="padding: 0.8rem;">Br 850</td>
+                            <td style="padding: 0.8rem;"><span style="background: #d1fae5; color: #065f46; padding: 0.3rem 0.6rem; border-radius: 0.3rem; font-size: 0.85rem;">Confirmed</span></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e5e7eb;">
+                            <td style="padding: 0.8rem;">BK10233</td>
+                            <td style="padding: 0.8rem;">Priya Sharma</td>
+                            <td style="padding: 0.8rem;">Bahir Dar → Mekelle</td>
+                            <td style="padding: 0.8rem;">20 May, 09:15 AM</td>
+                            <td style="padding: 0.8rem;">Br 600</td>
+                            <td style="padding: 0.8rem;"><span style="background: #d1fae5; color: #065f46; padding: 0.3rem 0.6rem; border-radius: 0.3rem; font-size: 0.85rem;">Confirmed</span></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e5e7eb;">
+                            <td style="padding: 0.8rem;">BK10232</td>
+                            <td style="padding: 0.8rem;">Karthik R</td>
+                            <td style="padding: 0.8rem;">Adama → Hawassa</td>
+                            <td style="padding: 0.8rem;">20 May, 08:00 AM</td>
+                            <td style="padding: 0.8rem;">Br 700</td>
+                            <td style="padding: 0.8rem;"><span style="background: #fef3c7; color: #92400e; padding: 0.3rem 0.6rem; border-radius: 0.3rem; font-size: 0.85rem;">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem;">BK10231</td>
+                            <td style="padding: 0.8rem;">Sneha Patel</td>
+                            <td style="padding: 0.8rem;">Dire Dawa → Adama</td>
+                            <td style="padding: 0.8rem;">19 May, 07:45 PM</td>
+                            <td style="padding: 0.8rem;">Br 500</td>
+                            <td style="padding: 0.8rem;"><span style="background: #fee2e2; color: #991b1b; padding: 0.3rem 0.6rem; border-radius: 0.3rem; font-size: 0.85rem;">Cancelled</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4 style="color: #1f2937; margin: 2rem 0 1rem; font-weight: bold;">Key Features for Operators:</h4>
+            <ul style="list-style: none;">
+                <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Real-time booking management</li>
+                <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Revenue tracking and analytics</li>
+                <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Bus and driver management</li>
+                <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Automated trip scheduling</li>
+                <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Financial reports and payouts</li>
+                <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Customer communication tools</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ========== ADMIN MODAL ========== -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content" style="max-width: 900px; max-height: 90vh; overflow-y: auto;">
+            <button class="modal-close" onclick="closeAdminModal()">×</button>
+            <h2>Admin Analytics Dashboard</h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                <div style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: white; padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
+                    <p style="opacity: 0.8; font-size: 0.9rem;">Total Users</p>
+                    <p style="font-size: 2rem; font-weight: bold;">128,934</p>
+                    <p style="font-size: 0.85rem; opacity: 0.8;">↑15.8% growth</p>
+                </div>
+                <div style="background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%); color: white; padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
+                    <p style="opacity: 0.8; font-size: 0.9rem;">Total Bookings</p>
+                    <p style="font-size: 2rem; font-weight: bold;">250,765</p>
+                    <p style="font-size: 0.85rem; opacity: 0.8;">↑20.8% increase</p>
+                </div>
+                <div style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
+                    <p style="opacity: 0.8; font-size: 0.9rem;">Total Revenue</p>
+                    <p style="font-size: 2rem; font-weight: bold;">Br 3.45Cr</p>
+                    <p style="font-size: 0.85rem; opacity: 0.8;">↑18.2% vs month</p>
+                </div>
+                <div style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
+                    <p style="opacity: 0.8; font-size: 0.9rem;">Active Operators</p>
+                    <p style="font-size: 2rem; font-weight: bold;">432</p>
+                    <p style="font-size: 0.85rem; opacity: 0.8;">↑9.7% increase</p>
+                </div>
+            </div>
+
+            <h4 style="color: #1f2937; margin: 2rem 0 1rem; font-weight: bold;">Platform Insights</h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                <div style="background: #f9fafb; padding: 1.5rem; border-radius: 0.5rem; border-left: 4px solid #16a34a;">
+                    <p style="color: #6b7280; font-size: 0.9rem;">Peak Booking Time</p>
+                    <p style="font-weight: bold; color: #1f2937; font-size: 1.2rem;">6:00 AM - 9:00 AM</p>
+                    <p style="font-size: 0.85rem; color: #6b7280;">45% of daily bookings</p>
+                </div>
+                <div style="background: #f9fafb; padding: 1.5rem; border-radius: 0.5rem; border-left: 4px solid #3b82f6;">
+                    <p style="color: #6b7280; font-size: 0.9rem;">Most Popular Route</p>
+                    <p style="font-weight: bold; color: #1f2937; font-size: 1.2rem;">Addis → Hawassa</p>
+                    <p style="font-size: 0.85rem; color: #6b7280;">25% of total bookings</p>
+                </div>
+                <div style="background: #f9fafb; padding: 1.5rem; border-radius: 0.5rem; border-left: 4px solid #f59e0b;">
+                    <p style="color: #6b7280; font-size: 0.9rem;">Avg Ticket Price</p>
+                    <p style="font-weight: bold; color: #1f2937; font-size: 1.2rem;">Br 485</p>
+                    <p style="font-size: 0.85rem; color: #6b7280;">Standard bus tier</p>
+                </div>
+            </div>
+
+            <h4 style="color: #1f2937; margin: 2rem 0 1rem; font-weight: bold;">Admin Capabilities:</h4>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                <ul style="list-style: none;">
+                    <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> User management</li>
+                    <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Operator verification</li>
+                    <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Payment reconciliation</li>
+                    <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Dispute resolution</li>
+                </ul>
+                <ul style="list-style: none;">
+                    <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> System analytics</li>
+                    <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Revenue reports</li>
+                    <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Promotional campaigns</li>
+                    <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> System settings</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== MOBILE APP MODAL ========== -->
+    <div id="mobileModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <button class="modal-close" onclick="closeMobileModal()">×</button>
+            <h2>Mobile App Demo</h2>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin: 2rem 0;">
+                <div style="text-align: center;">
+                    <div style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); border-radius: 2rem; padding: 1rem; color: white; height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <i class="fas fa-mobile-alt" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <h4>iOS App</h4>
+                        <p style="font-size: 0.9rem; margin: 1rem 0;">Available on App Store</p>
+                        <button class="btn-primary" style="margin-top: 1rem;">Download</button>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%); border-radius: 2rem; padding: 1rem; color: white; height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <i class="fab fa-android" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <h4>Android App</h4>
+                        <p style="font-size: 0.9rem; margin: 1rem 0;">Available on Google Play</p>
+                        <button class="btn-primary" style="margin-top: 1rem;">Download</button>
+                    </div>
+                </div>
+            </div>
+
+            <h4 style="color: #1f2937; margin: 2rem 0 1rem; font-weight: bold;">App Features:</h4>
+            <div style="background: #f9fafb; padding: 1.5rem; border-radius: 0.5rem;">
+                <ul style="list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                    <li><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> One-tap booking</li>
+                    <li><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Saved preferences</li>
+                    <li><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Live bus tracking</li>
+                    <li><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Push notifications</li>
+                    <li><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Offline mode</li>
+                    <li><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Biometric login</li>
+                    <li><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Payment wallet</li>
+                    <li><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Referral rewards</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== TRACKING MODAL ========== -->
+    <div id="trackingModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <button class="modal-close" onclick="closeTrackingModal()">×</button>
+            <h2>Real-time Bus Tracking</h2>
+
+            <div style="background: #e5f5ff; border-radius: 0.5rem; padding: 2rem; margin: 2rem 0; text-align: center; position: relative; height: 300px; display: flex; align-items: center; justify-content: center;">
+                <div style="position: absolute; width: 100%; height: 100%; background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 400 300\"><rect fill=\"%23f0f9ff\" width=\"400\" height=\"300\"/><path d=\"M50,150 L350,150\" stroke=\"%2399ccff\" stroke-width=\"2\" fill=\"none\"/><circle cx=\"150\" cy=\"150\" r=\"5\" fill=\"%2316a34a\"/><circle cx=\"250\" cy=\"150\" r=\"8\" fill=\"%23ef4444\" stroke=\"%23dc2626\" stroke-width=\"2\"/><text x=\"150\" y=\"170\" font-size=\"12\" fill=\"%23666\" text-anchor=\"middle\">Addis Ababa</text><text x=\"250\" y=\"170\" font-size=\"12\" fill=\"%23666\" text-anchor=\"middle\">Hawassa</text><text x=\"200\" y=\"130\" font-size=\"14\" fill=\"%2316a34a\" font-weight=\"bold\">🚌 Yegna Bus</text></svg>') center/cover; border-radius: 0.5rem;"></div>
+                <div style="position: relative; z-index: 10; background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    <p style="color: #6b7280; font-size: 0.9rem;">Current Status</p>
+                    <p style="font-weight: bold; color: #1f2937;">Yegna Bus - Speed: 72 kmh</p>
+                    <p style="font-size: 0.85rem; color: #16a34a;">ETA: 10:45 AM (125 km remaining)</p>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem;">
+                    <p style="color: #6b7280; font-size: 0.85rem;">Current Location</p>
+                    <p style="font-weight: bold; color: #1f2937;">Addis Ababa - Whitefield</p>
+                </div>
+                <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem;">
+                    <p style="color: #6b7280; font-size: 0.85rem;">Next Stop</p>
+                    <p style="font-weight: bold; color: #1f2937;">Adama (in 45 mins)</p>
+                </div>
+                <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem;">
+                    <p style="color: #6b7280; font-size: 0.85rem;">Distance Covered</p>
+                    <p style="font-weight: bold; color: #1f2937;">95 km / 220 km</p>
+                </div>
+                <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem;">
+                    <p style="color: #6b7280; font-size: 0.85rem;">Passengers Onboard</p>
+                    <p style="font-weight: bold; color: #1f2937;">34 / 40 seats</p>
+                </div>
+            </div>
+
+            <h4 style="color: #1f2937; margin-bottom: 1rem; font-weight: bold;">Tracking Benefits:</h4>
+            <ul style="list-style: none;">
+                <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Real-time GPS tracking</li>
+                <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Accurate ETA updates</li>
+                <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Push notifications at key points</li>
+                <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Driver contact information</li>
+                <li style="padding: 0.7rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Journey history</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ========== API MODAL ========== -->
+    <div id="apiModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <button class="modal-close" onclick="closeAPIModal()">×</button>
+            <h2>API Integration</h2>
+
+            <p style="color: #6b7280; margin-bottom: 2rem;">Connect BusHub with your platform using our robust REST API. Simple, secure, and scalable.</p>
+
+            <h4 style="color: #1f2937; margin-bottom: 1rem; font-weight: bold;">API Endpoints</h4>
+
+            <div style="background: #1f2937; color: #16a34a; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem; overflow-x: auto; font-family: monospace; font-size: 0.85rem;">
+                <p style="margin-bottom: 0.5rem;"><span style="color: #60a5fa;">POST</span> /api/v1/bookings</p>
+                <p style="margin-bottom: 0.5rem;"><span style="color: #60a5fa;">GET</span> /api/v1/trips/search</p>
+                <p style="margin-bottom: 0.5rem;"><span style="color: #60a5fa;">GET</span> /api/v1/buses/{busId}</p>
+                <p style="margin-bottom: 0.5rem;"><span style="color: #60a5fa;">PUT</span> /api/v1/bookings/{bookingId}</p>
+                <p><span style="color: #60a5fa;">POST</span> /api/v1/payments</p>
+            </div>
+
+            <h4 style="color: #1f2937; margin-bottom: 1rem; font-weight: bold;">Sample Request</h4>
+
+            <div style="background: #1f2937; color: #e0e0e0; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem; overflow-x: auto; font-family: monospace; font-size: 0.8rem;">
+                <pre style="margin: 0; color: #16a34a;">POST /api/v1/bookings
+Content-Type: application/json
+
+{
+  "trip_id": "TRIP123",
+  "passenger_name": "John Doe",
+  "email": "john@example.com",
+  "seats": [5, 6, 7],
+  "payment_method": "telebirr"
+}</pre>
+            </div>
+
+            <h4 style="color: #1f2937; margin-bottom: 1rem; font-weight: bold;">Sample Response</h4>
+
+            <div style="background: #1f2937; color: #e0e0e0; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem; overflow-x: auto; font-family: monospace; font-size: 0.8rem;">
+                <pre style="margin: 0; color: #16a34a;">{
+  "status": "success",
+  "booking_id": "BK1620847392",
+  "ticket_number": "TK1620847392",
+  "qr_code": "data:image/png;base64,...",
+  "amount": 1350,
+  "currency": "ETB"
+}</pre>
+            </div>
+
+            <h4 style="color: #1f2937; margin-bottom: 1rem; font-weight: bold;">Available Resources</h4>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                <ul style="list-style: none;">
+                    <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Trips & Buses</li>
+                    <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Bookings</li>
+                    <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Payments</li>
+                    <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Tracking</li>
+                </ul>
+                <ul style="list-style: none;">
+                    <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Users</li>
+                    <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Analytics</li>
+                    <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Webhooks</li>
+                    <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: #16a34a; margin-right: 0.7rem;"></i> Webhook Events</li>
+                </ul>
+            </div>
+
+            <p style="margin-top: 2rem; padding: 1rem; background: #d1fae5; color: #065f46; border-radius: 0.5rem; font-size: 0.9rem;">
+                <strong>📚 Full Documentation:</strong> Visit <a href="#" style="color: #047857; text-decoration: underline;">api.bushub.com/docs</a> for complete API reference, SDKs, and code examples.
+            </p>
+        </div>
+    </div>
+
+    <!-- ========== SUPPORT MODAL ========== -->
+    <div id="supportModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <button class="modal-close" onclick="closeSupportModal()">×</button>
+            <h2>Customer Support</h2>
+
+            <p style="color: #6b7280; margin-bottom: 2rem;">Our dedicated support team is available 24/7 to help you with any questions or issues.</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                <div style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: white; padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
+                    <i class="fas fa-phone" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                    <p style="font-weight: bold;">Phone Support</p>
+                    <p style="font-size: 0.9rem; opacity: 0.9;">+251 911 123 456</p>
+                </div>
+                <div style="background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%); color: white; padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
+                    <i class="fas fa-envelope" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                    <p style="font-weight: bold;">Email Support</p>
+                    <p style="font-size: 0.9rem; opacity: 0.9;">support@bushub.com</p>
+                </div>
+                <div style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
+                    <i class="fas fa-comments" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                    <p style="font-weight: bold;">Live Chat</p>
+                    <p style="font-size: 0.9rem; opacity: 0.9;">In-app chat support</p>
+                </div>
+            </div>
+
+            <h4 style="color: #1f2937; margin-bottom: 1rem; font-weight: bold;">Support Channels</h4>
+            <div>
+                <div style="padding: 1rem; background: #f9fafb; border-radius: 0.5rem; margin-bottom: 1rem;">
+                    <p style="font-weight: bold; color: #1f2937; margin-bottom: 0.5rem;">🎧 Live Chat (In-app)</p>
+                    <p style="color: #6b7280; font-size: 0.9rem;">Available 24/7 - Average response time: 2 minutes</p>
+                </div>
+                <div style="padding: 1rem; background: #f9fafb; border-radius: 0.5rem; margin-bottom: 1rem;">
+                    <p style="font-weight: bold; color: #1f2937; margin-bottom: 0.5rem;">📧 Email Support</p>
+                    <p style="color: #6b7280; font-size: 0.9rem;">support@bushub.com - Response within 2 hours</p>
+                </div>
+                <div style="padding: 1rem; background: #f9fafb; border-radius: 0.5rem; margin-bottom: 1rem;">
+                    <p style="font-weight: bold; color: #1f2937; margin-bottom: 0.5rem;">📞 Phone Support</p>
+                    <p style="color: #6b7280; font-size: 0.9rem;">+251 911 123 456 - Available 6 AM to 10 PM</p>
+                </div>
+                <div style="padding: 1rem; background: #f9fafb; border-radius: 0.5rem;">
+                    <p style="font-weight: bold; color: #1f2937; margin-bottom: 0.5rem;">❓ Help Center</p>
+                    <p style="color: #6b7280; font-size: 0.9rem;">Comprehensive FAQs and knowledge base</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== JAVASCRIPT ========== -->
+    <script>
+        // Set today's date in the date input
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateInput = document.getElementById('date');
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            dateInput.value = `${yyyy}-${mm}-${dd}`;
+            dateInput.min = `${yyyy}-${mm}-${dd}`;
+            
+            generateSeats();
+        });
+
+        // Modal Functions
+        function openBookingModal() {
+            document.getElementById('bookingModal').classList.add('active');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.remove('active');
+        }
+
+        function openSearchModal() {
+            closeBookingModal();
+            document.getElementById('searchModal').classList.add('active');
+        }
+
+        function closeSearchModal() {
+            document.getElementById('searchModal').classList.remove('active');
+        }
+
+        function openSeatsModal() {
+            closeSearchModal();
+            document.getElementById('seatsModal').classList.add('active');
+        }
+
+        function closeSeatsModal() {
+            document.getElementById('seatsModal').classList.remove('active');
+        }
+
+        function openPaymentModal() {
+            closeSeatsModal();
+            document.getElementById('paymentModal').classList.add('active');
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.remove('active');
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+
+        function openOperatorModal() {
+            document.getElementById('operatorModal').classList.add('active');
+        }
+
+        function closeOperatorModal() {
+            document.getElementById('operatorModal').classList.remove('active');
+        }
+
+        function openAdminModal() {
+            document.getElementById('adminModal').classList.add('active');
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.remove('active');
+        }
+
+        function openMobileModal() {
+            document.getElementById('mobileModal').classList.add('active');
+        }
+
+        function closeMobileModal() {
+            document.getElementById('mobileModal').classList.remove('active');
+        }
+
+        function openTrackingModal() {
+            document.getElementById('trackingModal').classList.add('active');
+        }
+
+        function closeTrackingModal() {
+            document.getElementById('trackingModal').classList.remove('active');
+        }
+
+        function openAPIModal() {
+            document.getElementById('apiModal').classList.add('active');
+        }
+
+        function closeAPIModal() {
+            document.getElementById('apiModal').classList.remove('active');
+        }
+
+        function openSupportModal() {
+            document.getElementById('supportModal').classList.add('active');
+        }
+
+        function closeSupportModal() {
+            document.getElementById('supportModal').classList.remove('active');
+        }
+
+        // Seat Selection
+        let selectedSeats = [];
+
+        function generateSeats() {
+            const seatsGrid = document.getElementById('seatsGrid');
+            seatsGrid.innerHTML = '';
+            
+            for (let i = 1; i <= 40; i++) {
+                const isBooked = Math.random() > 0.8;
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.textContent = i;
+                button.style.padding = '0.8rem';
+                button.style.border = '1px solid #ddd';
+                button.style.borderRadius = '0.3rem';
+                button.style.cursor = isBooked ? 'not-allowed' : 'pointer';
+                button.style.fontWeight = 'bold';
+                button.style.transition = 'all 0.3s';
+                
+                if (isBooked) {
+                    button.style.background = '#d1d5db';
+                    button.style.color = '#6b7280';
+                    button.disabled = true;
+                } else {
+                    button.style.background = '#dbeafe';
+                    button.style.color = '#1e40af';
+                    button.onclick = () => toggleSeat(i, button);
+                }
+                
+                seatsGrid.appendChild(button);
+            }
+        }
+
+        function toggleSeat(seatNumber, button) {
+            if (selectedSeats.includes(seatNumber)) {
+                selectedSeats = selectedSeats.filter(s => s !== seatNumber);
+                button.style.background = '#dbeafe';
+                button.style.color = '#1e40af';
+            } else {
+                selectedSeats.push(seatNumber);
+                button.style.background = '#16a34a';
+                button.style.color = 'white';
+                button.style.borderColor = '#15803d';
+            }
+            updateSeatDisplay();
+        }
+
+        function updateSeatDisplay() {
+            const displayEl = document.getElementById('selectedSeatsDisplay');
+            const countEl = document.getElementById('selectedSeatCount');
+            const totalEl = document.getElementById('totalAmount');
+            
+            if (selectedSeats.length === 0) {
+                displayEl.textContent = 'None';
+                countEl.textContent = '0 seats selected';
+                totalEl.textContent = 'Br 0';
+            } else {
+                displayEl.textContent = selectedSeats.join(', ');
+                countEl.textContent = `${selectedSeats.length} seat${selectedSeats.length > 1 ? 's' : ''} selected`;
+                totalEl.textContent = `Br ${selectedSeats.length * 450}`;
+            }
+        }
+
+        function proceedToPayment() {
+            if (selectedSeats.length === 0) {
+                alert('Please select at least one seat');
+                return;
+            }
+            
+            const totalAmount = selectedSeats.length * 450;
+            document.getElementById('paymentAmount').textContent = `Br ${totalAmount}`;
+            openPaymentModal();
+        }
+
+        function completePayment() {
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+            
+            if (!selectedSeats.length) {
+                alert('No seats selected');
+                return;
+            }
+            
+            console.log(`Payment of Br ${selectedSeats.length * 450} via ${paymentMethod}`);
+            document.getElementById('paymentModal').classList.remove('active');
+            document.getElementById('successModal').classList.add('active');
+        }
+
+        function downloadTicket() {
+            alert('Downloading your e-ticket...');
+        }
+
+        function shareTicket() {
+            alert('Sharing your ticket...');
+        }
+
+        function toggleFAQ(button) {
+            const answer = button.parentElement.querySelector('.faq-answer');
+            const icon = button.querySelector('i');
+            
+            if (answer.style.display === 'none') {
+                answer.style.display = 'block';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                answer.style.display = 'none';
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const modals = [
+                'bookingModal', 'searchModal', 'seatsModal', 'paymentModal', 
+                'successModal', 'operatorModal', 'adminModal', 'mobileModal',
+                'trackingModal', 'apiModal', 'supportModal'
+            ];
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (event.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
